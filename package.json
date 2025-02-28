@@ -1,0 +1,13 @@
+{
+  "name": "gen-landing",
+  "version": "1.0.0",
+  "description": "A general landing page for notifying system updates",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "node-fetch": "^2.7.0"
+  }
+}
