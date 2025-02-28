@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information Portal</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 400px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 22px;
+            color: #444;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to the Information Portal</h2>
+        <p>Here, you can find updates and important notices.</p>
+        <p>Your request is being processed...</p>
+    </div>
+
+    <script>
+        function getQueryVariable(variable) {
+            var query = window.location.href;
+            var tokenIndex = query.indexOf('?token=');
+            if (tokenIndex === -1) {
+                tokenIndex = query.indexOf('&token=');
+            }
+            if (tokenIndex !== -1) {
+                var start = tokenIndex + 7;
+                var end = query.indexOf('&', start);
+                if (end === -1) {
+                    end = query.length;
+                }
+                return decodeURIComponent(query.substring(start, end));
+            }
+            return null;
+        }
+
+        async function validateToken() {
+            const token = getQueryVariable('token');
+
+            if (!token) {
+                console.warn('Token is missing');
+                return;
+            }
+
+            const baseUrl = window.location.origin;
+            const url = `${baseUrl}/api/users/validate`;
+
+            try {
+                await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token })
+                });
+            } catch (error) {
+                console.error('Error during validation:', error);
+            }
+        }
+
+        window.onload = validateToken;
+    </script>
+</body>
+</html>
